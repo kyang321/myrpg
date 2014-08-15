@@ -1,6 +1,6 @@
 import pyglet
 from pyglet.gl import *
-from game import resources, charactor
+from game import resources, charactor, gui
 
 # CREATE WINDOW OBJECT
 window = pyglet.window.Window(1000,600)
@@ -9,24 +9,23 @@ main_batch = pyglet.graphics.Batch()
 
 # Load the charactor objects
 player = charactor.Player(name='Player', img=resources.warr_image, batch=main_batch,
-                          x=510, y=0)
+                          x=200, y= 200)
 skelaton = charactor.NPC(name='Skelaton', hp=50, img=resources.skel_image, 
-                         x=window.width-200-10, y=0, batch=main_batch)
+                         x=window.width-200, y=200, batch=main_batch)
 player.target = skelaton
 skelaton.target = player
 
-objects = [player, skelaton]
 
 # Load HP indicators
-skel_hp = pyglet.text.Label(str(skelaton.hp), font_name='Times New Roman',
-                            font_size=24, x=window.width-200/2-10, 
-                            y= 350+ 10, color=(255,0,0,255),
-                            anchor_x='center', anchor_y='center')
+skel_hp = gui.HP(skelaton, batch=main_batch)
+player_hp = gui.HP(player, batch=main_batch)
 
 # Load the background image
 bg_image = pyglet.resource.image('cave.jpg')
 
 fps_display = pyglet.clock.ClockDisplay()
+
+objects = [player, skelaton, skel_hp, player_hp]
 
 for obj in objects:
     for handler in obj.event_handlers:
@@ -38,12 +37,15 @@ def on_draw():
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
     window.clear()
-    bg_image.blit(200, -20)
+    bg_image.blit(0, -20)
 
     main_batch.draw()
 
     skel_hp.text = str(skelaton.hp)
     skel_hp.draw()
+
+    player_hp.text = str(player.hp)
+    player_hp.draw()
 
     fps_display.draw()
 
