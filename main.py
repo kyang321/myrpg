@@ -1,6 +1,6 @@
 import pyglet
 from pyglet.gl import *
-from game import resources, charactor, gui, load
+from game import resources, charactor, gui, load, player
 
 # CREATE WINDOW OBJECT
 window = pyglet.window.Window(1000,600)
@@ -8,7 +8,7 @@ main_batch = pyglet.graphics.Batch()
 
 
 # Load the charactor objects
-player = charactor.Player(name='Player', img=resources.warr_image, batch=main_batch,
+player = player.Player(name='Player', img=resources.warr_image, batch=main_batch,
                           x=200, y= 200)
 skelaton = charactor.NPC(name='Skelaton', hp=500, img=resources.skel_image, 
                          x=window.width-200, y=200, batch=main_batch)

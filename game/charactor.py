@@ -14,11 +14,18 @@ class Charactor(pyglet.sprite.Sprite):
         self.status = []
         self.abilities = [None, ability.basic_attack, ability.rend, None, None]
 
-        self.clock = time.time()
+        # Time stuff
+        self.clock = time.time() # two clocks bc auto attack and status clash
         self.statusclock = time.time()
         self.event_handlers = []
 
+        # Movement
+        self.dx = 0.0
+        self.dy = 0.0
+
     def status_effect(self):
+        if self.status == []:
+            return
         if time.time() - self.statusclock > 1.0 and not self.dead:
             self.statusclock = time.time()
             for n in xrange(len(self.status)):
@@ -37,35 +44,18 @@ class Charactor(pyglet.sprite.Sprite):
         if self.hp <= 0 and not self.dead:
             self.dead = True
             print self.name, 'is dead.'
+            return
+        if not self.dead:
+            self.status_effect()
+            self.x += self.dx
+            self.y += self.dy
 
-        self.status_effect()
-
-
-class Player(Charactor):
-    '''Grants keyboard input to controlled Charactor.'''
-    def __init__(self, *args, **kwargs):
-        super(Player, self).__init__(*args, **kwargs)
-
-
-        self.key_handler = key.KeyStateHandler()
-        self.event_handlers = [self, self.key_handler]
-
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key._1:
-            self.abilities[1].cast(self, self.target)
-        elif symbol == key._2:
-            self.abilities[2].cast(self, self.target)
-        elif symbol == key._3:
-            self.abilities[3].cast(self, self.target)
-        elif symbol == key._4:
-            self.abilities[4].cast(self, self.target)
 
 
 class NPC(Charactor):
     '''Currently the only difference between an NPC and a Player is
     that NPCs will auto-attack while Players can control their inputs.
     '''
-
     def update(self, dt): 
         super(NPC, self).update(dt)
         if time.time() - self.clock > 1.0 and not self.dead and not self.target.dead:
