@@ -1,1 +1,1 @@
-import ability, charactor, resources
+#import ability, charactor, resources

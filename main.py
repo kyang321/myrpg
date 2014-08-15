@@ -11,7 +11,7 @@ main_batch = pyglet.graphics.Batch()
 player = charactor.Player(name='Player', img=resources.warr_image, batch=main_batch,
                           x=510, y=0)
 skelaton = charactor.NPC(name='Skelaton', hp=50, img=resources.skel_image, 
-                         x=window.width-200-10, y=0)
+                         x=window.width-200-10, y=0, batch=main_batch)
 player.target = skelaton
 skelaton.target = player
 
@@ -41,10 +41,9 @@ def on_draw():
     bg_image.blit(200, -20)
 
     main_batch.draw()
+
+    skel_hp.text = str(skelaton.hp)
     skel_hp.draw()
-
-
-
 
     fps_display.draw()
 

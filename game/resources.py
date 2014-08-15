@@ -1,6 +1,6 @@
 import pyglet
 
-pyglet.resource.path = ['../resources']
+pyglet.resource.path = ['resources']
 pyglet.resource.reindex
 
 # LOAD IN CHARACTOR SPRITES
