@@ -6,7 +6,7 @@ from pyglet.window import key
 
 
 class Charactor(pyglet.sprite.Sprite):
-    def __init__(self, name, hp=100, *args, **kwargs):
+    def __init__(self, name, hp=500, *args, **kwargs):
         super(Charactor, self).__init__(*args, **kwargs)
         self.name = name
         self.hp = hp
@@ -18,11 +18,7 @@ class Charactor(pyglet.sprite.Sprite):
         self.statusclock = time.time()
         self.event_handlers = []
 
-    def update(self, dt):
-        if self.hp <= 0 and not self.dead:
-            self.dead = True
-            print self.name, 'is dead.'
-
+    def status_effect(self):
         if time.time() - self.statusclock > 1.0 and not self.dead:
             self.statusclock = time.time()
             for n in xrange(len(self.status)):
@@ -30,11 +26,19 @@ class Charactor(pyglet.sprite.Sprite):
                 duration = self.status[n][1]
 
                 status.effect()
-                duration -= 1
+                print 'Duration on %s is %d seconds.' % (status.name, duration)
+                self.status[n][1] -= 1
                 if duration <= 0:
-                    del status[n]
+                    print '%s is over.' % (status.name)
+                    del self.status[n]
+                    
 
+    def update(self, dt):
+        if self.hp <= 0 and not self.dead:
+            self.dead = True
+            print self.name, 'is dead.'
 
+        self.status_effect()
 
 
 class Player(Charactor):

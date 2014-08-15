@@ -9,7 +9,7 @@ class Ability(object):
     def cast(self, caster, target):
         print '%s uses %s on %s.' % (caster.name, self.name, caster.target.name)
         if not target.dead:
-            print '%s deals %d damage' % (self.name, self.base_damage)
+            #print '%s deals %d damage' % (self.name, self.base_damage)
             target.hp -= self.base_damage
         else:
             print 'Target is dead.'
@@ -21,6 +21,7 @@ class Dot(Ability):
         self.duration = duration
 
     def cast(self, caster, target):
+        print '%s uses %s on %s.' % (caster.name, self.name, caster.target.name)
         self.target = target
         buff = [self, self.duration]
         if buff not in target.status:
