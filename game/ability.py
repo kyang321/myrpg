@@ -20,11 +20,14 @@ class Dot(Ability):
         self.tick_damage = tick_damage
         self.duration = duration
 
-    def cast(self, target):
-        target.status.append([self, self.duration])
+    def cast(self, caster, target):
+        self.target = target
+        buff = [self, self.duration]
+        if buff not in target.status:
+            target.status.append([self, self.duration])
 
-    def effect(self, target):
-        target.hp -= self.tick_damage
+    def effect(self):
+        self.target.hp -= self.tick_damage
 
 basic_attack = Ability('Basic Attack', 10)
 rend = Dot(name='Rend', base_damage = 0, tick_damage=10, duration=3)

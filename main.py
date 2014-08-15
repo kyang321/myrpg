@@ -1,6 +1,6 @@
 import pyglet
 from pyglet.gl import *
-from game import resources, charactor, gui
+from game import resources, charactor, gui, load
 
 # CREATE WINDOW OBJECT
 window = pyglet.window.Window(1000,600)
@@ -10,7 +10,7 @@ main_batch = pyglet.graphics.Batch()
 # Load the charactor objects
 player = charactor.Player(name='Player', img=resources.warr_image, batch=main_batch,
                           x=200, y= 200)
-skelaton = charactor.NPC(name='Skelaton', hp=50, img=resources.skel_image, 
+skelaton = charactor.NPC(name='Skelaton', hp=500, img=resources.skel_image, 
                          x=window.width-200, y=200, batch=main_batch)
 player.target = skelaton
 skelaton.target = player
@@ -19,6 +19,9 @@ skelaton.target = player
 # Load HP indicators
 skel_hp = gui.HP(skelaton, batch=main_batch)
 player_hp = gui.HP(player, batch=main_batch)
+
+# Load skill bars
+ability_gui = load.ability_boxes(4, batch=main_batch, window=window)
 
 # Load the background image
 bg_image = pyglet.resource.image('cave.jpg')
