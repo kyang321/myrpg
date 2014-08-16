@@ -8,9 +8,9 @@ main_batch = pyglet.graphics.Batch()
 
 
 # Load the charactor objects
-player = player.Player(name='Player', img=resources.warr_image, batch=main_batch,
-                          x=200, y= 200)
-skelaton = charactor.NPC(name='Skelaton', hp=500, img=resources.skel_image, 
+player = player.Player('Player', img=resources.warr_image, 
+                       x=200, y=200, batch=main_batch)
+skelaton = charactor.NPC('Skelaton', hp=500, img=resources.skel_image, 
                          x=window.width-200, y=200, batch=main_batch)
 player.target = skelaton
 skelaton.target = player

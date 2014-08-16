@@ -1,5 +1,5 @@
+import time, math
 import ability
-import time
 import pyglet
 from pyglet import clock
 from pyglet.window import key
@@ -38,7 +38,16 @@ class Charactor(pyglet.sprite.Sprite):
                 if duration <= 0:
                     print '%s is over.' % (status.name)
                     del self.status[n]
-                    
+    def distance_from_target(self):
+        '''Returns a float of the distance between self and self's target'''
+        x1 = self.x
+        x2 = self.target.x
+        y1 = self.y
+        y2 = self.target.y
+        
+        distance = math.sqrt(float((x2-x1)**2 + (y2-y1)**2))
+
+        return distance
 
     def update(self, dt):
         if self.hp <= 0 and not self.dead:
@@ -53,11 +62,32 @@ class Charactor(pyglet.sprite.Sprite):
 
 
 class NPC(Charactor):
-    '''Currently the only difference between an NPC and a Player is
-    that NPCs will auto-attack while Players can control their inputs.
+    '''NPC's are charactors that automatically move and attack.'''
     '''
+    def __init__(self, target = None):
+        super(NPC, self).__init__(*args, **kwargs)
+        self.target = target 
+    '''
+
+    def move(self):
+        if self.distance_from_target() >= self.width:
+            if self.x < self.target.x:
+                self.dx = 2.5
+            elif self.x > self.target.x:
+                self.dx = -2.5
+
+            if self.y < self.target.y:
+                self.dy = 2.5
+            elif self.y > self.target.y:
+                self.dy = -2.5
+        else:
+            self.dx = 0
+            self.dy = 0
+
     def update(self, dt): 
         super(NPC, self).update(dt)
-        if time.time() - self.clock > 1.0 and not self.dead and not self.target.dead:
-            ability.basic_attack.cast(self, self.target)
-            self.clock = time.time()
+        if not self.dead and not self.target.dead:
+            self.move()
+            if time.time() - self.clock > 1.0:
+                ability.basic_attack.cast(self, self.target)
+                self.clock = time.time()
