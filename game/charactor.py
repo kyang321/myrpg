@@ -26,7 +26,7 @@ class Charactor(pyglet.sprite.Sprite):
     def status_effect(self):
         if self.status == []:
             return
-        if time.time() - self.statusclock > 1.0 and not self.dead:
+        elif time.time() - self.statusclock > 1.0 and not self.dead:
             self.statusclock = time.time()
             for n in xrange(len(self.status)):
                 status = self.status[n][0]

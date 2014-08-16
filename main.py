@@ -3,7 +3,7 @@ from pyglet.gl import *
 from game import resources, charactor, gui, load, player
 
 # CREATE WINDOW OBJECT
-window = pyglet.window.Window(1000,600)
+window = pyglet.window.Window(1600,900)
 main_batch = pyglet.graphics.Batch()
 
 
@@ -24,7 +24,7 @@ player_hp = gui.HP(player, batch=main_batch)
 ability_gui = load.ability_boxes(4, batch=main_batch, window=window)
 
 # Load the background image
-bg_image = pyglet.resource.image('cave.jpg')
+bg_image = pyglet.resource.image('room.png')
 
 fps_display = pyglet.clock.ClockDisplay()
 
@@ -36,8 +36,10 @@ for obj in objects:
 
 @window.event
 def on_draw():
+    '''
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    '''
 
     window.clear()
     bg_image.blit(0, -20)
