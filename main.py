@@ -34,24 +34,11 @@ for obj in objects:
     for handler in obj.event_handlers:
         window.push_handlers(handler)
 
-def health_bar():
-    x_pos = int(player.hp/500.0 * 800)
-    #pyglet.gl.glColor4f(1.0, 0, 0, 1.0)
-    pyglet.graphics.draw_indexed(4, pyglet.gl.GL_TRIANGLES,
-            [0,1,2,0,2,3],
-            ('v2i', (    0, 850,
-                     x_pos, 850,
-                     x_pos, 900,
-                         0, 900)),
-            ('c4B', (255,0,0,255) * 4)
-            )
-
-
 
 @window.event
 def on_draw():
     window.clear()
-    bg_image.blit(0, -20)
+    bg_image.blit(0, -50)
 
     main_batch.draw()
 
@@ -61,7 +48,7 @@ def on_draw():
     player_hp.text = str(player.hp)
     player_hp.draw()
 
-    health_bar()
+    gui.health_bar(player, skelaton)
 
     fps_display.draw()
 

@@ -24,13 +24,15 @@ class Charactor(pyglet.sprite.Sprite):
         self.dy = 0.0
 
     def status_effect(self):
+        '''Goes through the list 'status', goes through the effect of
+        each effect and also decreases the cooldown each second.
+        '''
         if self.status == []:
             return
         elif time.time() - self.statusclock > 1.0 and not self.dead:
             self.statusclock = time.time()
             for n in xrange(len(self.status)):
                 status = self.status[n]
-
                 status.effect()
                 print 'Duration on %s is %d seconds.' % (status.name, status.duration)
                 status.duration -= 1
@@ -69,6 +71,7 @@ class NPC(Charactor):
     '''
 
     def move(self):
+        '''Keeps trying to move closer to it's target until within it's own width.'''
         if self.distance_from_target() >= self.width:
             if self.x < self.target.x:
                 self.dx = 2.5

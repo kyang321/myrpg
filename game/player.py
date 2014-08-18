@@ -10,6 +10,8 @@ class Player(charactor.Charactor):
         self.event_handlers = [self, self.key_handler]
 
     def on_key_press(self, symbol, modifiers):
+        '''Currently mapped to a list of abilities. Hopefully
+        this makes it easier to switch abilities later.'''
         if symbol == key._1:
             self.abilities[1].cast(self, self.target)
         elif symbol == key._2:
