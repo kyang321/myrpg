@@ -12,7 +12,8 @@ class Charactor(pyglet.sprite.Sprite):
         self.hp = hp
         self.dead = False
         self.status = []
-        self.abilities = [None, ability.basic_attack, ability.rend, None, None]
+        self.abilities = [None, None, None, None, None]
+        self.make_abilities()
 
         # Time stuff
         self.clock = time.time() # two clocks bc auto attack and status clash
@@ -22,6 +23,14 @@ class Charactor(pyglet.sprite.Sprite):
         # Movement
         self.dx = 0.0
         self.dy = 0.0
+
+    def make_abilities(self):
+        self.abilities[1] = ability.Ability('Basic Attack', 20)
+        self.abilities[2] = ability.Dot(name='Rend', base_damage=0, tick_damage=10,
+                                        duration=6)
+        self.abilities[3] = ability.Charge(name='Charge', base_damage=0)
+        self.abilities[4] = None
+
 
     def status_effect(self):
         '''Goes through the list 'status', goes through the effect of
@@ -33,7 +42,7 @@ class Charactor(pyglet.sprite.Sprite):
             self.statusclock = time.time()
             for n in xrange(len(self.status)):
                 status = self.status[n]
-                status.effect()
+                status.effect(self)
                 print 'Duration on %s is %d seconds.' % (status.name, status.duration)
                 status.duration -= 1
                 if status.duration <= 0:
@@ -53,6 +62,7 @@ class Charactor(pyglet.sprite.Sprite):
     def update(self, dt):
         if self.hp <= 0 and not self.dead:
             self.dead = True
+            self.hp = 0
             print self.name, 'is dead.'
             return
         if not self.dead:
@@ -91,5 +101,5 @@ class NPC(Charactor):
         if not self.dead and not self.target.dead:
             self.move()
             if time.time() - self.clock > 1.0:
-                ability.basic_attack.cast(self, self.target)
+                self.abilities[1].cast(self, self.target)
                 self.clock = time.time()

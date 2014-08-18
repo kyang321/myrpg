@@ -21,3 +21,8 @@ center_image(warr_image)
 skill_box_image = pyglet.resource.image('skillbox.png')
 center_image(skill_box_image)
 
+
+# Load in telegrah
+telegraph_image = pyglet.resource.image('basic_attack_telegraph.png')
+center_image(telegraph_image)
+telegraph_image.anchor_y = -20
