@@ -18,14 +18,16 @@ class Dot(Ability):
     def __init__(self, tick_damage, duration, *args, **kwargs):
         super(Dot, self).__init__(*args, **kwargs)
         self.tick_damage = tick_damage
+        self.base_duration = duration
         self.duration = duration
 
     def cast(self, caster, target):
         print '%s uses %s on %s.' % (caster.name, self.name, caster.target.name)
         self.target = target
-        buff = [self, self.duration]
+        buff = self
         if buff not in target.status:
-            target.status.append([self, self.duration])
+            self.duration = self.base_duration
+            target.status.append(self)
 
     def effect(self):
         self.target.hp -= self.tick_damage

@@ -29,13 +29,12 @@ class Charactor(pyglet.sprite.Sprite):
         elif time.time() - self.statusclock > 1.0 and not self.dead:
             self.statusclock = time.time()
             for n in xrange(len(self.status)):
-                status = self.status[n][0]
-                duration = self.status[n][1]
+                status = self.status[n]
 
                 status.effect()
-                print 'Duration on %s is %d seconds.' % (status.name, duration)
-                self.status[n][1] -= 1
-                if duration <= 0:
+                print 'Duration on %s is %d seconds.' % (status.name, status.duration)
+                status.duration -= 1
+                if status.duration <= 0:
                     print '%s is over.' % (status.name)
                     del self.status[n]
     def distance_from_target(self):
