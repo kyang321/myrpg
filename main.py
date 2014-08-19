@@ -15,12 +15,6 @@ skelaton = charactor.NPC('Skelaton', hp=500, img=resources.skel_image,
 player.target = skelaton
 skelaton.target = player
 
-'''
-# Load telegraph
-telegraph = pyglet.sprite.Sprite(img=resources.telegraph_image, batch=main_batch,
-                                 '''
-
-
 # Load HP indicators
 skel_hp = gui.HP(skelaton, batch=main_batch)
 player_hp = gui.HP(player, batch=main_batch)
