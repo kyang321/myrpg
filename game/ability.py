@@ -13,7 +13,6 @@ class Ability(object):
         return caster.distance_from_target() < self.range
 
     def is_off_cooldown(self):
-        print time.time() - self.time
         return time.time() - self.time > self.cooldown
 
     def cast(self, caster, target):
@@ -53,10 +52,11 @@ class Charge(Ability):
         self.duration = 1
 
     def cast(self, caster, target):
-        self.duration = 1
+        self.duration = self.base_duration
         self.target = caster
-        caster.status.append(self)
+        if self.is_in_range(caster) and self not in target.status:
+            caster.status.append(self)
 
     def effect(self, target):
-        self.target.dx *= 100
-        self.target.dy *= 100
+        self.target.dx *= 10
+        self.target.dy *= 10

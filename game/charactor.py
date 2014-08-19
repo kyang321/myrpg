@@ -23,6 +23,7 @@ class Charactor(pyglet.sprite.Sprite):
         # Movement
         self.dx = 0.0
         self.dy = 0.0
+        self.drotat = 0
 
     def make_abilities(self):
         self.abilities[1] = ability.Ability('Basic Attack', 20)
@@ -59,12 +60,18 @@ class Charactor(pyglet.sprite.Sprite):
 
         return distance
 
-    def update(self, dt):
-        if self.hp <= 0 and not self.dead:
+    def death(self):
             self.dead = True
             self.hp = 0
             print self.name, 'is dead.'
+            self.drotat = 3
             return
+
+    def update(self, dt):
+        if self.rotation < 90:
+            self.rotation += self.drotat
+        if self.hp <= 0 and not self.dead:
+            self.death()
         if not self.dead:
             self.status_effect()
             self.x += self.dx

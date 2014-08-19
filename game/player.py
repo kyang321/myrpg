@@ -20,6 +20,9 @@ class Player(charactor.Charactor):
             self.abilities[3].cast(self, self.target)
         elif symbol == key._4:
             self.abilities[4].cast(self, self.target)
+    
+    def on_mouse_motion(self, x, y, dx, dy):
+        pass
 
     def update(self, dt):
         super(Player, self).update(dt)
