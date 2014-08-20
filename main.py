@@ -2,8 +2,10 @@ import pyglet
 from pyglet.gl import *
 from game import resources, charactor, gui, load, player
 
+pyglet.options['debug_gl'] = 0
+
 # CREATE WINDOW OBJECT
-window = pyglet.window.Window(1600,900)
+window = pyglet.window.Window(1600, 900, vsync=0)
 main_batch = pyglet.graphics.Batch()
 
 
