@@ -18,6 +18,7 @@ class Charactor(pyglet.sprite.Sprite):
         # Time stuff
         self.clock = time.time() # two clocks bc auto attack and status clash
         self.statusclock = time.time()
+
         self.event_handlers = []
 
         # Movement
@@ -55,17 +56,16 @@ class Charactor(pyglet.sprite.Sprite):
         x2 = self.target.x
         y1 = self.y
         y2 = self.target.y
-        
         distance = math.sqrt(float((x2-x1)**2 + (y2-y1)**2))
 
         return distance
 
     def death(self):
-            self.dead = True
-            self.hp = 0
-            print self.name, 'is dead.'
-            self.drotat = 3
-            return
+        self.dead = True
+        self.hp = 0
+        print self.name, 'is dead.'
+        self.drotat = 3
+        return
 
     def update(self, dt):
         if self.rotation < 90:
@@ -102,7 +102,7 @@ class NPC(Charactor):
         else:
             self.dx = 0
             self.dy = 0
-
+    
     def update(self, dt): 
         super(NPC, self).update(dt)
         if not self.dead and not self.target.dead:
