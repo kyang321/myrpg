@@ -16,8 +16,12 @@ class Charactor(pyglet.sprite.Sprite):
         self.make_abilities()
 
         # Time stuff
-        self.clock = time.time() # two clocks bc auto attack and status clash
+        self.auto_attack_timer = 0
         self.statusclock = time.time()
+
+        self.delay = False
+        self.delay_timer = 0
+
         self.event_handlers = []
 
         # Movement
@@ -37,6 +41,9 @@ class Charactor(pyglet.sprite.Sprite):
         '''Goes through the list 'status', goes through the effect of
         each effect and also decreases the cooldown each second.
         '''
+        # NOTE: All status effects are tied to a SINGLE timer so they
+        # all decrement on the same second.
+
         if self.status == []:
             return
         elif time.time() - self.statusclock > 1.0 and not self.dead:
@@ -102,11 +109,22 @@ class NPC(Charactor):
         else:
             self.dx = 0
             self.dy = 0
+    
+    def check_delay(self):
+        '''When the NPC attacks, its movement pauses for 1 second. self.delay
+        is set to True in the ability.'''
+        # NOTE: I need to refactor the delay because it's coming from two
+        # different modules (ability.basic_attack/charactor.NPC)
+        if self.delay:
+            self.dx, self.dy = 0, 0
+            if time.time() - self.delay_timer >= 1:
+                self.delay = False
 
     def update(self, dt): 
         super(NPC, self).update(dt)
         if not self.dead and not self.target.dead:
             self.move()
-            if time.time() - self.clock > 1.0:
+            self.check_delay()
+            if time.time() - self.auto_attack_timer > 1.0:
                 self.abilities[1].cast(self, self.target)
-                self.clock = time.time()
+                self.auto_attack_timer = time.time()

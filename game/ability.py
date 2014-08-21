@@ -26,6 +26,8 @@ class Ability(object):
         else:
             #not target.dead and self.is_in_range(caster):
             print '%s deals %d damage' % (self.name, self.base_damage)
+            caster.delay = True
+            caster.delay_timer = time.time()
             target.hp -= self.base_damage
             self.time = time.time()
 
