@@ -12,6 +12,7 @@ class Charactor(pyglet.sprite.Sprite):
         self.hp = hp
         self.dead = False
         self.status = []
+
         self.abilities = [None, None, None, None, None]
         self.make_abilities()
 
@@ -56,6 +57,7 @@ class Charactor(pyglet.sprite.Sprite):
                 if status.duration <= 0:
                     print '%s is over.' % (status.name)
                     del self.status[n]
+
     def distance_from_target(self):
         '''Returns a float of the distance between self and self's target'''
         x1 = self.x
@@ -75,7 +77,10 @@ class Charactor(pyglet.sprite.Sprite):
             return
 
     def update(self, dt):
-        if self.rotation < 90:
+        for ability in self.abilities:
+            if ability:
+                ability.cooldown.update()
+        if self.rotation < 90: # This and movment should be in a sep view class
             self.rotation += self.drotat
         if self.hp <= 0 and not self.dead:
             self.death()
@@ -85,15 +90,8 @@ class Charactor(pyglet.sprite.Sprite):
             self.y += self.dy
 
 
-
 class NPC(Charactor):
     '''NPC's are charactors that automatically move and attack.'''
-    '''
-    def __init__(self, target = None):
-        super(NPC, self).__init__(*args, **kwargs)
-        self.target = target 
-    '''
-
     def move(self):
         '''Keeps trying to move closer to it's target until within it's own width.'''
         if self.distance_from_target() >= self.width:

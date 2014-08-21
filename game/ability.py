@@ -1,4 +1,5 @@
 import time
+import counter
 
 class Ability(object):
     '''Base class for abilities'''
@@ -6,20 +7,22 @@ class Ability(object):
         self.name = name
         self.base_damage = base_damage
         self.range = range
-        self.cooldown = cooldown
-        self.time = time.time()
+        self.cooldown = counter.Counter(1.0)
+        #self.cooldown = cooldown
+        #self.time = time.time()
 
     def is_in_range(self, caster):
         return caster.distance_from_target() < self.range
 
-    def is_off_cooldown(self):
-        return time.time() - self.time > self.cooldown
+    #def is_off_cooldown(self):
+        #return time.time() - self.time > self.cooldown
 
     def cast(self, caster, target):
         #print '%s uses %s on %s.' % (caster.name, self.name, caster.target.name)
         if target.dead:
             print 'Target is dead.'
-        elif not self.is_off_cooldown():
+        elif self.cooldown.timer_on:
+        #elif not self.is_off_cooldown():
             print 'Ability %s is on cooldown' % (self.name)
         elif not self.is_in_range(caster):
             print 'Target is out of range.'
@@ -29,7 +32,7 @@ class Ability(object):
             caster.delay = True
             caster.delay_timer = time.time()
             target.hp -= self.base_damage
-            self.time = time.time()
+            self.cooldown.start()
 
 class Dot(Ability):
     def __init__(self, tick_damage, duration, *args, **kwargs):
