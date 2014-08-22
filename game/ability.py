@@ -31,7 +31,7 @@ class Ability(object):
             print '%s deals %d damage' % (self.name, self.base_damage)
             caster.delay = True
             caster.delay_timer = time.time()
-            target.hp -= self.base_damage
+            target.damage(self.base_damage)
             self.cooldown.start()
 
 class Dot(Ability):
@@ -48,7 +48,7 @@ class Dot(Ability):
             print '%s uses %s on %s.' % (caster.name, self.name, caster.target.name)
 
     def effect(self, target):
-        target.hp -= self.tick_damage
+        target.damage(self.tick_damage)
 
 class Charge(Ability):
     def __init__(self, *args, **kwargs):

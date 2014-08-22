@@ -1,9 +1,6 @@
 import time, math
 import ability
 import pyglet
-from pyglet import clock
-from pyglet.window import key
-
 
 class Charactor(pyglet.sprite.Sprite):
     def __init__(self, name, hp=500, *args, **kwargs):
@@ -32,11 +29,13 @@ class Charactor(pyglet.sprite.Sprite):
 
     def make_abilities(self):
         self.abilities[1] = ability.Ability('Basic Attack', 20)
-        self.abilities[2] = ability.Dot(name='Rend', base_damage=0, tick_damage=10,
+        self.abilities[2] = ability.Dot(name='Rend', base_damage=0, tick_damage=20,
                                         duration=6)
         self.abilities[3] = ability.Charge(name='Charge', base_damage=0)
         self.abilities[4] = None
 
+    def damage(self, damage):
+        self.hp -= damage
 
     def status_effect(self):
         '''Goes through the list 'status', goes through the effect of
@@ -70,11 +69,11 @@ class Charactor(pyglet.sprite.Sprite):
         return distance
 
     def death(self):
-            self.dead = True
-            self.hp = 0
-            print self.name, 'is dead.'
-            self.drotat = 3
-            return
+        self.dead = True
+        self.hp = 0
+        print self.name, 'is dead.'
+        self.drotat = 3
+        return
 
     def update(self, dt):
         for ability in self.abilities:
@@ -110,7 +109,8 @@ class NPC(Charactor):
     
     def check_delay(self):
         '''When the NPC attacks, its movement pauses for 1 second. self.delay
-        is set to True in the ability.'''
+        is set to True in the ability.
+       # '''
         # NOTE: I need to refactor the delay because it's coming from two
         # different modules (ability.basic_attack/charactor.NPC)
         if self.delay:
