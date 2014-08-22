@@ -1,14 +1,17 @@
 import time, math
-import ability
+import ability, charactor_draw
 import pyglet
 
-class Charactor(pyglet.sprite.Sprite):
-    def __init__(self, name, hp=500, *args, **kwargs):
-        super(Charactor, self).__init__(*args, **kwargs)
+class Charactor(object):
+    def __init__(self, name, x=0, y=0, img=None, hp=500, *args, **kwargs):
         self.name = name
+        img = charactor_draw.Charactor_Draw(charactor=self, img=img)
         self.hp = hp
         self.dead = False
         self.status = []
+
+        self.x = x
+        self.y = y
 
         self.abilities = [None, None, None, None, None]
         self.make_abilities()
@@ -25,7 +28,6 @@ class Charactor(pyglet.sprite.Sprite):
         # Movement
         self.dx = 0.0
         self.dy = 0.0
-        self.drotat = 0
 
     def make_abilities(self):
         self.abilities[1] = ability.Ability('Basic Attack', 20)
@@ -36,6 +38,7 @@ class Charactor(pyglet.sprite.Sprite):
 
     def damage(self, damage):
         self.hp -= damage
+        self.img.damage()
 
     def status_effect(self):
         '''Goes through the list 'status', goes through the effect of
@@ -71,22 +74,19 @@ class Charactor(pyglet.sprite.Sprite):
         self.dead = True
         self.hp = 0
         print self.name, 'is dead.'
-        self.drotat = 3
-        return
+        self.img.death()
 
     def update(self, dt):
         for ability in self.abilities:
             if ability:
                 ability.cooldown.update()
-        if self.rotation < 90: # This and movment should be in a sep view class
-            self.rotation += self.drotat
         if self.hp <= 0 and not self.dead:
             self.death()
         if not self.dead:
             self.status_effect()
             self.x += self.dx
             self.y += self.dy
-
+        self.img.update()
 
 class NPC(Charactor):
     '''NPC's are charactors that automatically move and attack.'''
