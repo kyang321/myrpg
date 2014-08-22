@@ -17,12 +17,9 @@ class Charactor(pyglet.sprite.Sprite):
         self.auto_attack_timer = 0
         self.statusclock = time.time()
 
-<<<<<<< HEAD
         self.delay = False
         self.delay_timer = 0
 
-=======
->>>>>>> 5200cf3772c6012136fc81dc2917cc290eee27fa
         self.event_handlers = []
 
         # Movement
@@ -109,7 +106,6 @@ class NPC(Charactor):
             self.dx = 0
             self.dy = 0
     
-<<<<<<< HEAD
     def check_delay(self):
         '''When the NPC attacks, its movement pauses for 1 second. self.delay
         is set to True in the ability.
@@ -121,8 +117,6 @@ class NPC(Charactor):
             if time.time() - self.delay_timer >= 1:
                 self.delay = False
 
-=======
->>>>>>> 5200cf3772c6012136fc81dc2917cc290eee27fa
     def update(self, dt): 
         super(NPC, self).update(dt)
         if not self.dead and not self.target.dead:

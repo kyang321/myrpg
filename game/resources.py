@@ -13,9 +13,16 @@ def center_image(image):
 skel_image = pyglet.resource.image('sWar.png')
 center_image(skel_image)
 
+skel_image_damaged = pyglet.resource.image('sWar_damaged.png')
+center_image(skel_image_damaged)
+
+
 warr_image = pyglet.resource.image('warrior.png')
 #warr_image = warr_image.get_transform(flip_x=True) #FLIPS THE IMAGE, SAVE FOR LATER
 center_image(warr_image)
+
+warr_image_damaged = pyglet.resource.image('warrior_damaged.png')
+center_image(warr_image_damaged)
 
 #LOAD IN GUI ELEMENTS
 skill_box_image = pyglet.resource.image('skillbox.png')
