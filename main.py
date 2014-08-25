@@ -22,7 +22,7 @@ skel_hp = gui.HP(skelaton, batch=main_batch)
 player_hp = gui.HP(player, batch=main_batch)
 
 # Load skill bars
-ability_gui = load.ability_boxes(4, batch=main_batch, window=window)
+ability_gui = gui.Ability_Bar(4, main_batch, window)
 
 # Load the background image
 bg_image = pyglet.resource.image('room.png')

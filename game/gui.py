@@ -1,4 +1,36 @@
 import pyglet
+import resources, ability, charactor
+
+class Ability_Bar(object):
+    def __init__(self, num_icons, batch, window):
+        self.num_icons = num_icons
+        self.batch = batch
+        self.window = window
+        self.ability_bar = self.ability_boxes() 
+
+    def ability_boxes(self):
+        abilities = []
+        bindings = []
+        for i in xrange(self.num_icons):
+            box_size = 48
+            new_sprite = pyglet.sprite.Sprite(img=resources.skill_box_image,
+                                              x=self.window.width/2 - box_size*2 
+                                                + i*box_size,
+                                              y=48, batch=self.batch,
+                                              group=pyglet.graphics.OrderedGroup(0))
+            abilities.append(new_sprite)
+
+        for m in xrange(self.num_icons):
+            n = m+1
+            label = pyglet.text.Label(str(n), font_name='Times New Roman',
+                                      font_size=36, batch=self.batch,
+                                      x=abilities[m].x, y=abilities[m].y, 
+                                      anchor_x='center', anchor_y='center',
+                                      group=pyglet.graphics.OrderedGroup(1))
+            bindings.append(label)
+
+        return abilities + bindings
+
 
 class HP(pyglet.text.Label):
     def __init__(self, charactor, batch):
@@ -15,7 +47,7 @@ class HP(pyglet.text.Label):
     def update(self, dt):
         self.hp = self.charactor.hp
         self.x = self.charactor.x
-        self.y = self.charactor.y + 200
+        self.y = self.charactor.y + 100
 
 def health_bar(player, boss):
     x_pos = int(player.hp/500.0 * 800)
