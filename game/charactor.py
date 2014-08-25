@@ -36,6 +36,7 @@ class Charactor(pyglet.sprite.Sprite):
 
     def damage(self, damage):
         self.hp -= damage
+        # TODO: add call to animation method
 
     def status_effect(self):
         '''Goes through the list 'status', goes through the effect of
