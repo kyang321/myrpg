@@ -14,7 +14,9 @@ for obj in objects:
     for handler in obj.event_handlers:
         window.push_handlers(handler)
 
-bg_image, health_bars, fps = load.load_gui(main_batch, window, objects[0], objects[1])
+bg_image, fps = load.load_gui(main_batch, window, objects[0], objects[1])
+ability_gui = gui.Ability_Bar(4, main_batch, window, objects[0])
+
 
 @window.event
 def on_draw():
@@ -22,7 +24,7 @@ def on_draw():
 
     bg_image.blit(0, -50)
     main_batch.draw()
-    health_bars
+    gui.health_bar(objects[0], objects[1])
     fps.draw()
 
 

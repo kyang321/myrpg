@@ -22,13 +22,9 @@ def load_objects(batch, window):
     return objects
 
 def load_gui(batch, window, player_char, skelaton):
-    # Load skill bars
-    ability_gui = gui.Ability_Bar(4, batch, window, player)
-
     # Load the background image
     bg_image = pyglet.resource.image('room.png')
 
     fps_display = pyglet.clock.ClockDisplay()
-    health_bars = gui.health_bar(player_char, skelaton)
 
-    return bg_image, health_bars, fps_display
+    return bg_image, fps_display
