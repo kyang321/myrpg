@@ -8,50 +8,23 @@ pyglet.options['debug_gl'] = 0
 window = pyglet.window.Window(1600, 900, vsync=0)
 main_batch = pyglet.graphics.Batch()
 
-
-# Load the charactor objects
-player = player.Player('Player', img=resources.warr_image, 
-                       x=200, y=200, batch=main_batch)
-skelaton = charactor.NPC('Skelaton', hp=500, img=resources.skel_image, 
-                         x=window.width-200, y=200, batch=main_batch)
-player.target = skelaton
-skelaton.target = player
-
-# Load HP indicators
-skel_hp = gui.HP(skelaton, batch=main_batch)
-player_hp = gui.HP(player, batch=main_batch)
-
-# Load skill bars
-ability_gui = gui.Ability_Bar(4, main_batch, window)
-
-# Load the background image
-bg_image = pyglet.resource.image('room.png')
-
-fps_display = pyglet.clock.ClockDisplay()
-
-objects = [player, skelaton, skel_hp, player_hp]
+objects = load.load_objects(main_batch, window)
 
 for obj in objects:
     for handler in obj.event_handlers:
         window.push_handlers(handler)
 
+bg_image, health_bars, fps = load.load_gui(main_batch, window, objects[0], objects[1])
 
 @window.event
 def on_draw():
     window.clear()
+
     bg_image.blit(0, -50)
-
     main_batch.draw()
+    health_bars
+    fps.draw()
 
-    skel_hp.text = str(skelaton.hp)
-    skel_hp.draw()
-
-    player_hp.text = str(player.hp)
-    player_hp.draw()
-
-    gui.health_bar(player, skelaton)
-
-    fps_display.draw()
 
 def update(dt):
     for obj in objects:
