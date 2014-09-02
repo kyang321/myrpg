@@ -1,5 +1,5 @@
 import time, math
-import ability
+import ability, resources
 import pyglet
 
 class Charactor(pyglet.sprite.Sprite):
@@ -36,6 +36,7 @@ class Charactor(pyglet.sprite.Sprite):
 
     def damage(self, damage):
         self.hp -= damage
+        self.img = resources.warr_image_damaged
         # TODO: add call to animation method
 
     def status_effect(self):
